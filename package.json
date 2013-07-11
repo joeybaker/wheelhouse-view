@@ -1,0 +1,23 @@
+{
+  "name": "wheelhouse-view",
+  "version": "0.0.0",
+  "description": "Backbone Views improved",
+  "main": "view.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/joeybaker/wheelhouse-view"
+  },
+  "keywords": [
+    "wheelhouse",
+    "backbone",
+    "view"
+  ],
+  "author": "Joey Baker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joeybaker/wheelhouse-view/issues"
+  }
+}
