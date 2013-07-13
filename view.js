@@ -46,10 +46,13 @@ module.exports = Backbone.View.extend({
   // boilerplate to init a new child view from the `views` config object
   , _setupView: function(name, opts){
     var View = A.Views[name] = require('views/' + name)
-      , options = _.defaults(opts || {}, this.views[name], {
-        parent: this
-        , collection: this.collection
-        , model: this.model
+      , origOptions = this.views[name]
+      , options = _.defaults(opts || {}
+        , (_.isFunction(origOptions) ? origOptions.call(this, this.options) : origOptions)
+        , {
+          parent: this
+          , collection: this.collection
+          , model: this.model
       })
       , view
 

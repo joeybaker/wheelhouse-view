@@ -27,7 +27,11 @@ module.exports = View.extend({
   , events: {} // standard backbone events hash
   , views: { // optional, useful if this view has subviews
     // sub views will be loaded by browserify's require()
+    // the value can be an object or a function that returns an object that will be used as the view's options.
     'sub/view/name': {viewOption: 'some option you want to pass off to the child view'}
+    , 'another/sub/view': function(optionsOfThisView){
+      return {}
+    }
   }
   // collection attributes are optional, but can be used to output the view's collection
   , collectionContainer: '#list' // optional, if not specified, will use the view's el
