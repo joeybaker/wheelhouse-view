@@ -60,6 +60,9 @@ module.exports = Backbone.Router.extend({
 ### `children`
 Object that contains the all view's child views. Created for you after rendering.
 
+#### `collectionChildren`
+Just like children, but separates out the `collectionItem` views if they were rendered.
+
 ### `renderView(name[, options])`
 Useful if you need to manually render a view from the views hash.
 * `name` is the key from the name hash (and path to the view)
@@ -85,3 +88,6 @@ Define a function that will be called after the view as rendered. Useful if you 
 
 ### `parent`
 Automatically created. A reference to the view's parent view, if it exists.
+
+### `data`
+Optional. Additional data to pass to the view.

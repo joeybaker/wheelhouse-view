@@ -6,6 +6,7 @@ var Backbone = require('backbone')
 module.exports = Backbone.View.extend({
   views: {}
   , children: {}
+  , data: {}
   , _rendered: false
   // override default configure
   , _configure: function(options) {
@@ -22,7 +23,7 @@ module.exports = Backbone.View.extend({
         ? this.collection.toJSON()
         : {}
 
-    this.$el.html(this.template(data))
+    this.$el.html(this.template(_.extend(data, this.data)))
     this.delegateEvents(this.events)
 
     this.renderViews()
