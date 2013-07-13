@@ -82,3 +82,6 @@ Renders the views specified in the `views` object, and renders out the collectio
 
 ### `postRender()`
 Define a function that will be called after the view as rendered. Useful if you have custom logic, and a whole lot better than overriding the `render()` method.
+
+### `parent`
+Automatically created. A reference to the view's parent view, if it exists.
