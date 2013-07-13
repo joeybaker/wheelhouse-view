@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
         ? this.collection.toJSON()
         : {}
 
-    this.$el.html(this.template(_.extend(data, this.data)))
+    this.$el.html(this.template(_.extend(data, _.isFunction(this.data) ? this.data.call(this, this.options) : this.data)))
     this.delegateEvents(this.events)
 
     this.renderViews()

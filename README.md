@@ -94,4 +94,4 @@ Define a function that will be called after the view as rendered. Useful if you 
 Automatically created. A reference to the view's parent view, if it exists.
 
 ### `data`
-Optional. Additional data to pass to the view.
+Optional. Additional data to pass to the view. Can be an object or a function that returns an object.
