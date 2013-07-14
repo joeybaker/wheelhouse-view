@@ -49,20 +49,19 @@ module.exports = Backbone.View.extend({
     var View = A.Views[name] = require('views/' + name)
       // get the options
       , origOptions = this.views[name]
-      , options = _.defaults(opts || {}
+      , options = _.defaults(
+        opts || {}
         , _.isFunction(origOptions) ? origOptions.call(this, _.extend({}, this.options, opts || {})) : origOptions
         , {
           parent: this
           , collection: this.collection
           , model: this.model
-      })
-      , view
+        }
+      )
 
     if (options.el) options.el = this.$(options.el)
 
-    view = new View(options)
-
-    return view
+    return new View(options)
   }
   , removeInner: function(){
     this.$el.html('')
@@ -74,8 +73,8 @@ module.exports = Backbone.View.extend({
   , addOne: function(model){
     var name = _.keys(this.collectionItem)[0]
       , options = _.isFunction(this.collectionItem[name])
-        ? _.defaults(this.collectionItem[name].call(this, _.extend({model: model}, this.options)), {model: model})
-        : this.collectionItem[name]
+        ? _.defaults({model: model}, this.collectionItem[name].call(this, _.extend({model: model}, this.options)))
+        : _.extend({model: model}, this.collectionItem[name])
       , view = this._setupView(name, options)
 
     this.collectionChildren.push(view)
