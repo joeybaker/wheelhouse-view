@@ -47,9 +47,10 @@ module.exports = Backbone.View.extend({
   // boilerplate to init a new child view from the `views` config object
   , _setupView: function(name, opts){
     var View = A.Views[name] = require('views/' + name)
+      // get the options
       , origOptions = this.views[name]
       , options = _.defaults(opts || {}
-        , (_.isFunction(origOptions) ? origOptions.call(this, this.options) : origOptions)
+        , _.isFunction(origOptions) ? origOptions.call(this, _.extend({}, this.options, opts || {})) : origOptions
         , {
           parent: this
           , collection: this.collection
@@ -72,7 +73,10 @@ module.exports = Backbone.View.extend({
   // TODO: abstract out the item view, the collection container, and the itemView options
   , addOne: function(model){
     var name = _.keys(this.collectionItem)[0]
-      , view = this._setupView(name, _.extend({model: model}, this.collectionItem[name]))
+      , options = _.isFunction(this.collectionItem[name])
+        ? _.defaults(this.collectionItem[name].call(this, _.extend({model: model}, this.options)), {model: model})
+        : this.collectionItem[name]
+      , view = this._setupView(name, options)
 
     this.collectionChildren.push(view)
     return view
