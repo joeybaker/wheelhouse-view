@@ -23,8 +23,9 @@ module.exports = Backbone.View.extend({
         ? this.collection.toJSON()
         : {}
 
+    this.undelegateEvents()
     this.$el.html(this.template(_.extend(data, _.isFunction(this.data) ? this.data.call(this, this.options) : this.data)))
-    this.delegateEvents(this.events)
+    this.delegateEvents()
 
     this.renderViews()
     if (this.collectionItem) this.addAll()
@@ -64,6 +65,7 @@ module.exports = Backbone.View.extend({
   }
   , removeInner: function(){
     this.$el.html('')
+    this.undelegateEvents()
     this.stopListening()
     return this
   }
@@ -83,6 +85,7 @@ module.exports = Backbone.View.extend({
 
     // unbind all the events from children
     _.each(this.collectionChildren, function(child){
+      child.undelegateEvents()
       child.stopListening()
     })
     // remove all the collectionChildren
