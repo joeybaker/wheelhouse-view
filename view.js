@@ -24,11 +24,11 @@ module.exports = Backbone.View.extend({
         : {}
 
     this.undelegateEvents()
-    this.$el.html(this.template(_.extend(data, _.isFunction(this.data) ? this.data.call(this, this.options) : this.data)))
+    this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
     this.delegateEvents()
 
     this.renderViews()
-    if (this.collectionItem) this.addAll()
+    if (this.collectionItem) this.addAll(_(this.collection.filter(this._callWithOptions('collectionFilter'))))
     if (this.postRender) this.postRender()
 
     this._rendered = true
@@ -43,6 +43,9 @@ module.exports = Backbone.View.extend({
     var view = this._setupView(name, options)
     this.children[name] = view
     return view.render()
+  }
+  , _callWithOptions: function(attr){
+    return _.isFunction(this[attr]) ? this[attr].call(this, this.options) : this[attr]
   }
   // boilerplate to init a new child view from the `views` config object
   , _setupView: function(name, opts){

@@ -39,6 +39,12 @@ module.exports = View.extend({
     // same syntax as the views hash, but you can only have one key
     'path/to/list/item/view': {'viewOption': 'anything'}
   }
+  , collectionFilter: function(options){
+    // return a function that is passed to Backbone.Collection.filter
+    return function(model) {
+      return model.id !== null
+    }
+  }
   , postRender: function(){
     // completely optional. Ideally, you won't need this. But just in case there's something else you want to do to the poor view after it's been rendered.
   }
@@ -66,6 +72,9 @@ Object that contains the all view's child views. Created for you after rendering
 
 #### `collectionChildren`
 Just like children, but separates out the `collectionItem` views if they were rendered.
+
+### `collectionFilter(options)`
+Return a function that will be used to filter the collection passed to `addAll`. Useful if you want to limit the models rendered to the collection.
 
 ### `renderView(name[, options])`
 Useful if you need to manually render a view from the views hash.
