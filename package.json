@@ -19,5 +19,11 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/joeybaker/wheelhouse-view/issues"
+  },
+  "dependencies": {
+    "lodash": "~1",
+    "backbone": "~1.0",
+    "jquery": "~1",
+    "jquery-queue": "git+ssh://git@github.com:joeybaker/jquery-queue.git"
   }
 }

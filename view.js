@@ -1,7 +1,7 @@
 'use strict';
 var Backbone = require('backbone')
   , _ = require('lodash')
-
+require('jquery-queue')
 
 module.exports = Backbone.View.extend({
   views: {}
@@ -66,17 +66,32 @@ module.exports = Backbone.View.extend({
 
     return new View(options)
   }
+  , _remove: function(){
+    this.stopListening()
+    _.each(this.children, function(view){
+      view.undelegateEvents()
+      view.stopListening()
+    })
+    _.each(this.collecitonChildren, function(view){
+      view.undelegateEvents()
+      view.stopListening()
+    })
+  }
+  , remove: function(){
+    this.$el.remove()
+    this._remove()
+    return this
+  }
   , removeInner: function(){
     this.$el.html('')
-    this.undelegateEvents()
-    this.stopListening()
+    this._remove()
     return this
   }
   // TODO: abstract out the item view, the collection container, and the itemView options
   , addOne: function(model){
     var name = _.keys(this.collectionItem)[0]
       , options = _.isFunction(this.collectionItem[name])
-        ? _.defaults({model: model}, this.collectionItem[name].call(this, _.extend({model: model}, this.options)))
+        ? _.defaults({model: model}, this.collectionItem[name].call(this, _.extend(this.options, {model: model})))
         : _.extend({model: model}, this.collectionItem[name])
       , view = this._setupView(name, options)
 
@@ -103,5 +118,22 @@ module.exports = Backbone.View.extend({
     // clear the HTML and add our fragment
     list.html('')[0].appendChild(listContent)
   }
+  , save: function(e){
+    var attr = e.target.name
+      , value = e.target.value
 
+    if (this.model.get(attr) !== value) this.model.save(attr, value, {
+      queue: _.result(this.model, 'url')
+    })
+  }
+  , deferedSave: _.throttle(function(e){
+    this.save(e)
+  }, 2000, {trailing: true, leading: false})
+  , textareaAutoresize: function(e){
+    var el = e.target
+      , offset = el.offsetHeight - el.clientHeight
+
+    el.style.height = 'auto'
+    el.style.height = (el.scrollHeight  + offset ) + 'px'
+  }
 })

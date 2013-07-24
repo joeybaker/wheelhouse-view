@@ -104,3 +104,36 @@ Automatically created. A reference to the view's parent view, if it exists.
 
 ### `data`
 Optional. Additional data to pass to the view. Can be an object or a function that returns an object.
+
+### `save(jQueryEvent)`
+Predefined method that can be used from an events hash to automatically save the value of that element to the model.
+
+e.g. automatically save whenever an input's focus is lost:
+
+```js
+// view.js
+  …
+  events: {
+    'blur [name]': 'save'
+  }
+```
+
+```html
+<input name="aModelAttribute" value="blank">
+```
+
+### `deferedSave(jQueryEvent)`
+Same as `save()`, but only saves to the server every 2 seconds. Useful if you want your event to be `keyup`.
+
+### `textareaAutoresize(jQueryEvent)`
+Like it says on the tin. Pass it an event triggered from a textarea, and it will auto-resize to be the height of it's contents.
+
+```js
+…
+  events: {
+    'input textarea': 'textareaAutoresize'
+  }
+
+```
+
+_via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-and-clean-way.html)_
