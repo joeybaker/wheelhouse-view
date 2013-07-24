@@ -25,5 +25,8 @@
     "backbone": "~1.0",
     "jquery": "~1",
     "jquery-queue": "git+ssh://git@github.com:joeybaker/jquery-queue.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4"
   }
 }
