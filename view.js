@@ -46,8 +46,17 @@ module.exports = Backbone.View.extend({
     this.children[name] = view
     return view.render()
   }
+  // TODO: create lodash mixin
+  // like lodash `_.result()`, but can pass arguments
+  // args can be a single argument, or an array for multiple arguments
+  , _resultWithArgs: function(object, property, args, context){
+    var value = object ? object[property] : undefined
+    args = !_.isArray(args) ? [args] : args
+
+    return _.isFunction(value) ? object[property].apply(context || object, args) : value;
+  }
   , _callWithOptions: function(attr){
-    return _.isFunction(this[attr]) ? this[attr].call(this, this.options) : this[attr]
+    return this._resultWithArgs(this, attr, this.options)
   }
   // boilerplate to init a new child view from the `views` config object
   , _setupView: function(name, opts){
