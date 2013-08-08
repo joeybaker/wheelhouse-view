@@ -29,9 +29,11 @@ module.exports = Backbone.View.extend({
 
     this.renderViews()
     if (this.collectionItem) this.addAll(_(this.collection.filter(this._callWithOptions('collectionFilter'))))
+    this._rendered = true
+    this.trigger('rendered')
+    
     if (this.postRender) this.postRender()
 
-    this._rendered = true
     return this
   }
   , renderViews: function(){
