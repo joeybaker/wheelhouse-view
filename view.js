@@ -27,17 +27,19 @@ module.exports = Backbone.View.extend({
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
     this.delegateEvents()
 
+    this.children = {}
     this.renderViews()
     if (this.collectionItem) this.addAll(_(this.collection.filter(this._callWithOptions('collectionFilter'))))
     this._rendered = true
     this.trigger('rendered')
-    
+
     if (this.postRender) this.postRender()
 
     return this
   }
   , renderViews: function(){
-    _.each(this.views, function(opts, name){
+    _.each(this.views, function(options, name){
+      // no need to pass the options because we're using the defaults
       this.renderView(name)
     }, this)
   }
@@ -59,13 +61,13 @@ module.exports = Backbone.View.extend({
     return this._resultWithArgs(this, attr, this.options)
   }
   // boilerplate to init a new child view from the `views` config object
-  , _setupView: function(name, opts){
-    var View = A.Views[name] = require('views/' + name)
+  , _setupView: function(name, options){
+    var View = require('views/' + name)
+      // get the original options for the view
+      , origOptions = this._resultWithArgs(this.views, name, _.extend({}, this.options, options || {}))
       // get the options
-      , origOptions = this.views[name]
-      , options = _.defaults(
-        opts || {}
-        , _.isFunction(origOptions) ? origOptions.call(this, _.extend({}, this.options, opts || {})) : origOptions
+      , opts = _.defaults(options || {}
+        , origOptions
         , {
           parent: this
           , collection: this.collection
@@ -73,20 +75,22 @@ module.exports = Backbone.View.extend({
         }
       )
 
-    if (options.el) options.el = this.$(options.el)
+    if (opts.el) opts.el = this.$(opts.el)
 
-    return new View(options)
+    return new View(opts)
   }
   , _remove: function(){
     this.stopListening()
-    _.each(this.children, function(view){
-      view.undelegateEvents()
-      view.stopListening()
-    })
-    _.each(this.collecitonChildren, function(view){
-      view.undelegateEvents()
-      view.stopListening()
-    })
+    if (_.size(this.children))
+      _.each(this.children, function(view){
+        view.undelegateEvents()
+        view.stopListening()
+      })
+    if (this.collectionChildren && this.collectionChildren.length)
+      _.each(this.collectionChildren, function(view){
+        view.undelegateEvents()
+        view.stopListening()
+      })
   }
   , remove: function(){
     this.$el.remove()
