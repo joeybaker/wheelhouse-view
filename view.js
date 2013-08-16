@@ -64,7 +64,7 @@ module.exports = Backbone.View.extend({
   , _setupView: function(name, options){
     var View = require('views/' + name)
       // get the original options for the view
-      , origOptions = this._resultWithArgs(this.views, name, _.extend({}, this.options, options || {}))
+      , origOptions = this._resultWithArgs(this.views, name, _.extend({}, this.options, options || {}), this)
       // get the options
       , opts = _.defaults(options || {}
         , origOptions
