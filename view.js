@@ -102,7 +102,6 @@ module.exports = Backbone.View.extend({
     this._remove()
     return this
   }
-  // TODO: abstract out the item view, the collection container, and the itemView options
   , addOne: function(model){
     var name = _.keys(this.collectionItem)[0]
       , options = _.isFunction(this.collectionItem[name])
@@ -136,8 +135,10 @@ module.exports = Backbone.View.extend({
   , save: function(e){
     var attr = e.target.name
       , value = e.target.value
+      , orig = this.model.get(attr)
 
-    if (this.model.get(attr) !== value) this.model.save(attr, value, {
+    // always save objects, but don't if it's just a string
+    if (orig !== value || _.isObject(orig)) this.model.save(attr, value, {
       queue: _.result(this.model, 'url')
     })
   }
