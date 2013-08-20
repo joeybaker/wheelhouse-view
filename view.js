@@ -23,6 +23,8 @@ module.exports = Backbone.View.extend({
         ? this.collection.toJSON()
         : {}
 
+    if (window._user) _.extend(data, {_user: window._user})
+
     this.undelegateEvents()
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
     this.delegateEvents()
