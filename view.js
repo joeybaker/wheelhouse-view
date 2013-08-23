@@ -27,15 +27,15 @@ module.exports = Backbone.View.extend({
 
     this.undelegateEvents()
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
-    this.delegateEvents()
 
     this.children = {}
     this.renderViews()
     if (this.collectionItem) this.addAll(_(this.collection.filter(this._callWithOptions('collectionFilter'))))
     this._rendered = true
-    this.trigger('rendered')
 
     if (this.postRender) this.postRender()
+    this.delegateEvents()
+    this.trigger('rendered')
 
     return this
   }
@@ -83,6 +83,8 @@ module.exports = Backbone.View.extend({
   }
   , _remove: function(){
     this.stopListening()
+    // unbind all events
+    // no need to rm dom elements b/c they should all be children of this element
     if (_.size(this.children))
       _.each(this.children, function(view){
         view.undelegateEvents()
