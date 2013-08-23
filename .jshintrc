@@ -13,6 +13,7 @@
   , "undef": true
   , "unused": true
   , "strict": true
+  , "globalstrict": true
   , "trailing": true
 
   , "asi"       : true
@@ -27,7 +28,4 @@
 
   , "node": true
   , "browser": true
-  , "predef": [
-    "A"
-  ]
 }
