@@ -12,5 +12,5 @@ logs
 results
 
 node_modules
-components
+bower_components
 tmp
