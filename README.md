@@ -70,7 +70,7 @@ module.exports = Backbone.Router.extend({
 ### `children`
 Object that contains the all view's child views. Created for you after rendering.
 
-#### `collectionChildren`
+### `collectionChildren`
 Just like children, but separates out the `collectionItem` views if they were rendered.
 
 ### `collectionFilter(options)`

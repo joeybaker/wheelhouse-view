@@ -1,4 +1,5 @@
 'use strict';
+
 var Backbone = require('backbone')
   , _ = require('lodash')
 require('jquery-queue')
@@ -117,8 +118,11 @@ module.exports = Backbone.View.extend({
     return view
   }
   , addAll: function(collection){
-    var list = this.$(this.collectionContainer) || this.$el
+    var list = this.$(this.collectionContainer)
       , listContent = document.createDocumentFragment()
+
+    // if the collectionContainer wasn't defined, just use the el
+    if (list.length === 0) list = this.$el
 
     collection = collection || this.collection
 
