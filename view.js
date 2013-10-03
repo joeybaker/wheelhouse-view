@@ -140,12 +140,13 @@ module.exports = Backbone.View.extend({
     // clear the HTML and add our fragment
     list.html('')[0].appendChild(listContent)
   }
-  , save: function(e){
-    var attr = e.target.name
-      , value = e.target.value
+  // two ways to call this either save(attr, value) or save(event)
+  , save: function(e, val){
+    var attr = val ? e : e.target.name
+      , value = val || e.target.value
       , orig = this.model.get(attr)
 
-    // always save objects, but don't if it's just a string
+    // ensure this is a new value unless it's an object, in which case, just save it b/c a check is complex
     if (orig !== value || _.isObject(orig)) this.model.save(attr, value, {
       queue: _.result(this.model, 'url')
     })

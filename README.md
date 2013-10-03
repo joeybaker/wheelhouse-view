@@ -105,7 +105,7 @@ Automatically created. A reference to the view's parent view, if it exists.
 ### `data`
 Optional. Additional data to pass to the view. Can be an object or a function that returns an object.
 
-### `save(jQueryEvent)`
+### `save(jQueryEvent|[attr, value])`
 Predefined method that can be used from an events hash to automatically save the value of that element to the model.
 
 e.g. automatically save whenever an input's focus is lost:
@@ -120,6 +120,12 @@ e.g. automatically save whenever an input's focus is lost:
 
 ```html
 <input name="aModelAttribute" value="blank">
+```
+
+Or, you can manually call `save` with a attribute and value to save
+
+```js
+  this.save('color', 'red')
 ```
 
 ### `deferedSave(jQueryEvent)`
