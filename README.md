@@ -3,8 +3,6 @@ wheelhouse-view
 
 Automagic for backbone views!
 
-**Docs are a work in progress**
-
 ## Benefits
 
 * no need to specify `View.render()` it's done for you, automatically passing in the collection as the context for the view, or the model if it's specified.
@@ -25,14 +23,19 @@ module.exports = View.extend({
   el: 'body' // standard backbone el attr
   , template: require('template/path') // standard backbone template attr
   , events: {} // standard backbone events hash
-  , views: { // optional, useful if this view has subviews
+  , views: [ // optional, useful if this view has subviews
     // sub views will be loaded by browserify's require()
     // the value can be an object or a function that returns an object that will be used as the view's options.
-    'sub/view/name': {viewOption: 'some option you want to pass off to the child view'}
-    , 'another/sub/view': function(optionsOfThisView){
-      return {}
+    {
+      view: 'sub/view/name':
+      , viewOption: 'some option you want to pass off to the child view'
     }
-  }
+    , function(optionsOfThisView){
+      return {
+        view: 'another/sub/view'
+      }
+    }
+  ]
   // collection attributes are optional, but can be used to output the view's collection
   , collectionContainer: '#list' // optional, if not specified, will use the view's el
   , collectionItem: {
@@ -76,8 +79,18 @@ Just like children, but separates out the `collectionItem` views if they were re
 ### `collectionFilter(options)`
 Return a function that will be used to filter the collection passed to `addAll`. Useful if you want to limit the models rendered to the collection.
 
-### `renderView(name[, options])`
-Useful if you need to manually render a view from the views hash.
+### `views`
+An array of sub views to render. Each array item is an object or a function that returns an object.
+
+The object must contain a `view` key that is the path to the view. Views are assumed to be in a `views/` folder.
+
+### `renderSubView(index[, options])` _replaces `renderView` in 0.2.0_
+Useful if you need to manually render a view from the views array.
+* `index` is the index of the view you want to render from the `views` array.
+* `options` is optional, and will override any of the defaults setup in the `views` object.
+
+### `renderView(name[, options])`  _deprecated in 0.2.0_
+Useful if you need to manually render a view from the views object.
 * `name` is the key from the name hash (and path to the view)
 * `options` is optional, and will override any of the defaults setup in the `views` object
 
@@ -143,3 +156,11 @@ Like it says on the tin. Pass it an event triggered from a textarea, and it will
 ```
 
 _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-and-clean-way.html)_
+
+## Tests
+none yet. should be mocha tests.
+
+## Changelog
+### 0.1.0 Init
+### 0.2.0
+* **breaking change** `views` must now be an array instead of an object

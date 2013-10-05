@@ -1,6 +1,6 @@
 {
   "name": "wheelhouse-view",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Backbone Views improved",
   "main": "view.js",
   "scripts": {

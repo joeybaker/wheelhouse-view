@@ -5,7 +5,7 @@ var Backbone = require('backbone')
 require('jquery-queue')
 
 module.exports = Backbone.View.extend({
-  views: {}
+  views: []
   , children: {}
   , data: {}
   , _rendered: false
@@ -41,11 +41,25 @@ module.exports = Backbone.View.extend({
     return this
   }
   , renderViews: function(){
-    _.each(this.views, function(options, name){
-      // no need to pass the options because we're using the defaults
-      this.renderView(name)
-    }, this)
+    // determine if views is not an array for backward compatibility
+    if (_.isArray(this.views)) {
+      _.each(this.views, function(options, index){
+        this.renderSubView.call(this, index, options)
+      }, this)
+    }
+    // TODO: deprecate this path
+    else {
+      _.each(this.views, function(options, name){
+        // no need to pass the options because we're using the defaults
+        this.renderView(name)
+      }, this)
+    }
   }
+  , renderSubView: function(index, options){
+    var view = this.children[index] = this._configView(index, options)
+    return view.render()
+  }
+  // TODO: deprecate this in favor of renderSubView
   , renderView: function(name, options){
     var view = this._setupView(name, options)
     this.children[name] = view
@@ -63,7 +77,34 @@ module.exports = Backbone.View.extend({
   , _callWithOptions: function(attr){
     return this._resultWithArgs(this, attr, this.options)
   }
+  , _configView: function(index, options){
+    // build thei view config. Default to the passed in options, then to the options defined in the view array, then to the view's options object, then to defaults that every subview needs.
+    var config = _.defaults(
+        {}
+        // if options is a function, call it with our requested options and the default options of the view
+        , this._callWithOptions(
+          this.views
+          , index
+          , _.defaults({}, options, this.options)
+          , this
+        )
+        // add in the view default options
+        , this.options
+        // add in defaults that sub views need.
+        , {
+          parent: this
+          , collection: this.colleciton
+          , model: this.model
+        }
+      )
+      , View = require('views/' + config.view)
+
+    if (config.el) config.el = this.$(config.el)
+
+    return new View(config)
+  }
   // boilerplate to init a new child view from the `views` config object
+  // TODO: deprecate this in favor of _configView
   , _setupView: function(name, options){
     var View = require('views/' + name)
       // get the original options for the view
