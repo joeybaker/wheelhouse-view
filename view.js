@@ -78,16 +78,15 @@ module.exports = Backbone.View.extend({
     return this._resultWithArgs(this, attr, this.options)
   }
   , _configView: function(index, options){
-    // build thei view config. Default to the passed in options, then to the options defined in the view array, then to the view's options object, then to defaults that every subview needs.
+    // build the view config. Default to the passed in options, then to the options defined in the view array, then to the view's options object, then to defaults that every subview needs.
     var config = _.defaults(
-        {}
         // if options is a function, call it with our requested options and the default options of the view
-        , this._callWithOptions(
+        this._resultWithArgs(
           this.views
           , index
-          , _.defaults({}, options, this.options)
+          , _.defaults(options || {}, this.options)
           , this
-        )
+        ) || {}
         // add in the view default options
         , this.options
         // add in defaults that sub views need.
@@ -97,11 +96,10 @@ module.exports = Backbone.View.extend({
           , model: this.model
         }
       )
-      , View = require('views/' + config.view)
 
     if (config.el) config.el = this.$(config.el)
 
-    return new View(config)
+    return new (require('views/' + config.view))(config)
   }
   // boilerplate to init a new child view from the `views` config object
   // TODO: deprecate this in favor of _configView
