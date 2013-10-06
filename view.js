@@ -30,8 +30,8 @@ module.exports = Backbone.View.extend({
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
 
     this.children = {}
-    this.renderViews()
     if (this.collectionItem) this.addAll(_(this.collection.filter(this._callWithOptions('collectionFilter'))))
+    this.renderViews()
     this._rendered = true
 
     if (this.postRender) this.postRender()
@@ -91,13 +91,13 @@ module.exports = Backbone.View.extend({
         , this.options
         // add in defaults that sub views need.
         , {
-          parent: this
-          , collection: this.colleciton
+          collection: this.colleciton
           , model: this.model
         }
       )
 
     if (config.el) config.el = this.$(config.el)
+    config.parent = this
 
     return new (require('views/' + config.view))(config)
   }
@@ -111,13 +111,13 @@ module.exports = Backbone.View.extend({
       , opts = _.defaults(options || {}
         , origOptions
         , {
-          parent: this
-          , collection: this.collection
+          collection: this.collection
           , model: this.model
         }
       )
 
     if (opts.el) opts.el = this.$(opts.el)
+    opts.parent = this
 
     return new View(opts)
   }
