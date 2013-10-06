@@ -2,6 +2,7 @@
 
 var Backbone = require('backbone')
   , _ = require('lodash')
+  , viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'parent']
 require('jquery-queue')
 
 module.exports = Backbone.View.extend({
@@ -12,7 +13,6 @@ module.exports = Backbone.View.extend({
   // override default configure
   , _configure: function(options) {
     // 'parent' is added
-    var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'parent']
     if (this.options) options = _.extend({}, _.result(this, 'options'), options)
     _.extend(this, _.pick(options, viewOptions))
     this.options = options
@@ -80,24 +80,27 @@ module.exports = Backbone.View.extend({
   , _configView: function(index, options){
     // build the view config. Default to the passed in options, then to the options defined in the view array, then to the view's options object, then to defaults that every subview needs.
     var config = _.defaults(
-        // if options is a function, call it with our requested options and the default options of the view
-        this._resultWithArgs(
-          this.views
-          , index
-          , _.defaults(options || {}, this.options)
-          , this
-        ) || {}
-        // add in the view default options
-        , this.options
-        // add in defaults that sub views need.
-        , {
-          collection: this.colleciton
-          , model: this.model
-        }
-      )
+      {}
+      // if options is a function, call it with our requested options and the default options of the view
+      , this._resultWithArgs(
+        this.views
+        , index
+        , _.defaults({}, options, this.options)
+        , this
+      ) || {}
+      // add in the view default options
+      , _.omit(this.options, function(value){
+        return viewOptions.indexOf(value) < 0
+      })
+      // add in defaults that sub views need.
+      , {
+        collection: this.collection
+        , model: this.model
+        , parent: this
+      }
+    )
 
     if (config.el) config.el = this.$(config.el)
-    config.parent = this
 
     return new (require('views/' + config.view))(config)
   }
