@@ -127,12 +127,10 @@ module.exports = Backbone.View.extend({
     // no need to rm dom elements b/c they should all be children of this element
     if (_.size(this.children))
       _.each(this.children, function(view){
-        view.undelegateEvents()
         view.stopListening()
       })
     if (this.collectionChildren && this.collectionChildren.length)
       _.each(this.collectionChildren, function(view){
-        view.undelegateEvents()
         view.stopListening()
       })
   }
@@ -167,7 +165,6 @@ module.exports = Backbone.View.extend({
 
     // unbind all the events from children
     _.each(this.collectionChildren, function(child){
-      child.undelegateEvents()
       child.stopListening()
     })
     // remove all the collectionChildren
