@@ -38,6 +38,9 @@ module.exports = Backbone.View.extend({
     this.delegateEvents()
     this.trigger('rendered')
 
+    // call the remove method on the remove event to unbind events
+    this.once('remove', this._remove, this)
+
     return this
   }
   , renderViews: function(){
@@ -128,13 +131,17 @@ module.exports = Backbone.View.extend({
     this.stopListening()
     // unbind all events
     // no need to rm dom elements b/c they should all be children of this element
-    if (_.size(this.children))
+    this._rendered = false
+
+    if (_.size(this.children) || this.children.length)
       _.each(this.children, function(view){
         view.stopListening()
+        view.trigger('remove')
       })
     if (this.collectionChildren && this.collectionChildren.length)
       _.each(this.collectionChildren, function(view){
         view.stopListening()
+        view.trigger('remove')
       })
   }
   , remove: function(){

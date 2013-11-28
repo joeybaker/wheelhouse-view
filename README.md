@@ -104,7 +104,10 @@ Returns a `collectionItem` view that can be rendered.
 Renders the collection to the `collectionContainer` (or the view's `el` if that isn't specified), with the `collectionItem` view used for each item in the collection
 
 ### `removeInner()`
-Like `remove()`, but leaves the view's `el` intact. Useful if you want to put something else into that DOM element.
+Like `remove()`, but leaves the view's `el` intact. Useful if you want to put something else into that DOM element. Triggers the `remove` event.
+
+### `remove()`
+Remove the `el` and detach all events. Triggers the `remove` event.
 
 ### `render()`
 Renders the views specified in the `views` object, and renders out the collection if the `collectionItem` option has been specified.
@@ -161,6 +164,11 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
-### 0.1.0 Init
+### 0.2.4
+* call the `_remove` method when the `remove` event is triggered
+* set `_rendered` to `false` on `_remove`
+
 ### 0.2.0
 * **breaking change** `views` must now be an array instead of an object
+
+### 0.1.0 Init
