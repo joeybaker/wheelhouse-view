@@ -164,6 +164,9 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
+### 0.2.5
+* remove unDelegate and delegate events from the render method. It was there for a forgotten reason and it's causing other problems.
+
 ### 0.2.4
 * call the `_remove` method when the `remove` event is triggered
 * set `_rendered` to `false` on `_remove`

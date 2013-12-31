@@ -26,7 +26,6 @@ module.exports = Backbone.View.extend({
 
     if (window._user) _.extend(data, {_user: window._user})
 
-    this.undelegateEvents()
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
 
     this.children = {}
@@ -35,7 +34,6 @@ module.exports = Backbone.View.extend({
     this._rendered = true
 
     if (this.postRender) this.postRender()
-    this.delegateEvents()
     this.trigger('rendered')
 
     // call the remove method on the remove event to unbind events
