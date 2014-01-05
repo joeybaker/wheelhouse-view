@@ -164,6 +164,9 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
+### 0.2.7 & 0.2.8
+Publish command updated.
+
 ### 0.2.6
 IE8 compatibility.
 
