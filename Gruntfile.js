@@ -99,6 +99,13 @@ module.exports = function(grunt){
           , failOnError: true
         }
       }
+      , gitPullRebase: {
+        command: 'git pull --rebase origin master'
+        , options: {
+          stdout: true
+          , failOnError: true
+        }
+      }
       , npmTest: {
         command: 'npm test'
         , options: {
@@ -118,6 +125,7 @@ module.exports = function(grunt){
   grunt.registerTask('test', ['simplemocha'])
   grunt.registerTask('publish', [
     'shell:gitRequireCleanTree'
+    , 'shell:gitPullRebase'
     , 'jshint'
     , 'shell:npmTest'
     , 'bump:' + (grunt.option('bump') || 'patch')
