@@ -91,7 +91,7 @@ module.exports = Backbone.View.extend({
       ) || {}
       // add in the view default options
       , _.omit(this.options, function(value){
-        return _(viewOptions).indexOf(value) < 0
+        return _.indexOf(viewOptions, value) < 0
       })
       // add in defaults that sub views need.
       , {
