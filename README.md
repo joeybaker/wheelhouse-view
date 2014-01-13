@@ -164,10 +164,10 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
-### 0.2.9
+### 0.2.10
 When passing a collection to a view, it's now passed in as `collection`. Allowing you to do `{{#each collection}}` in your template.
 
-### 0.2.7 & 0.2.8
+### 0.2.7 & 0.2.8 & 0.2.9
 Publish command updated.
 
 ### 0.2.6
