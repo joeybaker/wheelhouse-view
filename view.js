@@ -21,7 +21,7 @@ module.exports = Backbone.View.extend({
     var data = this.model
       ? this.model.toJSON()
       : this.collection
-        ? this.collection.toJSON()
+        ? {collection: this.collection.toJSON()}
         : {}
 
     if (window._user) _.extend(data, {_user: window._user})
