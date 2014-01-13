@@ -127,7 +127,8 @@ module.exports = function(grunt){
     'shell:gitRequireCleanTree'
     , 'shell:gitPullRebase'
     , 'jshint'
-    , 'shell:npmTest'
+    // no tests yet. That's no good.
+    // , 'shell:npmTest'
     , 'bump:' + (grunt.option('bump') || 'patch')
     , 'shell:gitCommitPackage'
     , 'shell:gitTag'
