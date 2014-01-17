@@ -25,6 +25,7 @@ module.exports = Backbone.View.extend({
         : {}
 
     if (window._user) _.extend(data, {_user: window._user})
+    if (window._templateData) _.extend(data, window._templateData)
 
     this.$el.html(this.template(_.extend(data, this._callWithOptions('data'))))
 

@@ -121,6 +121,8 @@ Automatically created. A reference to the view's parent view, if it exists.
 ### `data`
 Optional. Additional data to pass to the view. Can be an object or a function that returns an object.
 
+Note: `window._user` is avaliable to all templates as `_user`; `window._templateData` is avaliable to all templates as well.
+
 ### `save(jQueryEvent|[attr, value])`
 Predefined method that can be used from an events hash to automatically save the value of that element to the model.
 
@@ -164,6 +166,9 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
+### 0.2.11
+Adding `window._templateData` to all templates.
+
 ### 0.2.10
 When passing a collection to a view, it's now passed in as `collection`. Allowing you to do `{{#each collection}}` in your template.
 
