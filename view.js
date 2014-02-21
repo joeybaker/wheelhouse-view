@@ -46,14 +46,14 @@ module.exports = Backbone.View.extend({
     // determine if views is not an array for backward compatibility
     if (_.isArray(this.views)) {
       _.each(this.views, function(options, index){
-        this.renderSubView.call(this, index, options)
+        if (options.parentRender !== false) this.renderSubView.call(this, index, options)
       }, this)
     }
     // TODO: deprecate this path
     else {
       _.each(this.views, function(options, name){
         // no need to pass the options because we're using the defaults
-        this.renderView(name)
+        if (options.parentRender !== false) this.renderView(name)
       }, this)
     }
   }

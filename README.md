@@ -29,6 +29,7 @@ module.exports = View.extend({
     {
       view: 'sub/view/name':
       , viewOption: 'some option you want to pass off to the child view'
+      , parentRender: true // default. Set to false if you don't want this child view to be rendered during this view's render call.
     }
     , function(optionsOfThisView){
       return {
@@ -166,6 +167,9 @@ _via: [@phaistonian](http://phaistonian.pblogs.gr/expanding-textareas-the-easy-a
 none yet. should be mocha tests.
 
 ## Changelog
+### 0.2.12
+Add an option to subviews: `parentRender`. When set to `false`, the sub view will not be rendered by the parent view's `render()` call.
+
 ### 0.2.11
 Adding `window._templateData` to all templates.
 
